@@ -35,3 +35,8 @@
 *.toc
 *.vrb
 *.nav
+*.bbl
+*.bcf
+*.blg
+*.xml
+*.pdf

@@ -20,7 +20,18 @@
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{amsfonts}
-\usetikzlibrary{shapes.geometric}
+\usepackage[
+    backend=biber,
+    style=phys,
+    pageranges=false,
+    biblabel=brackets,
+    chaptertitle=false,
+    articletitle=false,
+    maxbibnames=3,
+    doi=false, url=false, isbn=false
+]{biblatex}
+%\usepackage[backend=biber]{biblatex}
+\addbibresource{presentation.bib}
 
 \title[TPS free energies]{Transition path sampling and the calculation of free energies of enzymatic reactions}
 %\subtitle{} 
@@ -40,21 +51,19 @@
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
+  \frametitle{Outline}
+  \begin{itemize}[<+-|alert@+>]
+      \item Introduction to transition path sampling 
+      \item Equilibrium sampling within TPS
+      \item Algorithm 
+      \item Results
+  \end{itemize}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
 \frametitle{Transition path sampling (TPS)}
-\begin{tikzpicture}
- \draw (3,2) ellipse (.5cm and .25cm);
- \draw (5,2) ellipse (.25cm and .55cm);
-\draw (5.2,1.9) to [controls=+(90:1) and +(90:1)] (3,2);
-\end{tikzpicture} 
-\begin{tikzpicture}[
-node distance = 3mm and 9mm,
-% block/.style = {rectangle, draw, minimum height=22mm},
- ellip/.style = {draw, ellipse, align=center},
-                    ]
-%\node (n1) [block] {block};
-\node (n2) [ellip, above right=of n1.east]  {longer text\\ in two lines};
-\node (n3) [ellip, below right=of n1.east]  {short\\ text};
-    \end{tikzpicture}
+Transition path sampling is a rate event sampling method \cite{Bolhuis02AnnRevPhysChem53p291}
+that is free from bias
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
