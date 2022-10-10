@@ -1,10 +1,11 @@
 \documentclass{beamer}
 
+\input{embed_video.tex}
 \mode<presentation>
 {
   \usetheme{Boadilla}
   % possiblities Singapore, Malmoe, Dresden 
-  \setbeamercovered{transparent}
+  \setbeamercovered{invisible}
 }
 
 %\setbeamertemplate{navigation symbols}{} 
@@ -16,6 +17,10 @@
 
 \usepackage[english]{babel}
 \usepackage{tikz}
+\usetikzlibrary{patterns,hobby}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.6}
+\usepgfplotslibrary{fillbetween}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
@@ -61,9 +66,56 @@
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
+\frametitle{Sampling rare but important events}
+\begin{figure}
+\centering
+\includegraphics[scale=0.75]{figures/pot-surf.pdf}
+\end{figure}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
 \frametitle{Transition path sampling (TPS)}
 Transition path sampling is a rate event sampling method \cite{Bolhuis02AnnRevPhysChem53p291}
 that is free from bias
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{}
+\begin{tikzpicture}
+\begin{axis}[enlargelimits=false,ticks=none]
+\addplot3[fill=blue]
+coordinates{
+(1,0,0)
+(1,1,0)
+(1,1,1)
+(1,0,1)
+};
+\addplot3[fill=blue]
+coordinates{
+(2,0,0)
+(2,1,0)
+(2,1,1)
+(2,0,1)
+};
+\addplot3[fill=blue]
+coordinates{
+(3,0,0)
+(3,1,0)
+(3,1,1)
+(3,0,1)
+};
+    %\addplot3[name path=toppath,fill=blue, opacity=0.1, fill opacity=0.4,samples=2] (x-1,x,0);
+    %\addplot3[name path=botpath,fill=blue, opacity=0.1, fill opacity=0.4,samples=2] (x-1,x,0);
+    %\addplot [gray] fill between[of=toppath and botpath];
+  \end{axis}
+%  
+\draw [black, thick] (1,3,0) -- (3,3,1.5);
+\end{tikzpicture}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Shooting algorithm}
+
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
@@ -85,12 +137,158 @@ probability distribution function.
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
+\frametitle{Monte Carlo in path space}
+\begin{tikzpicture}
+ \begin{axis}[
+        xmin=0.0,xmax=5.0,
+        ymin=0,ymax=5.0,
+        xtick={0.0, 5.0},
+        %xticklabels={$v_1$,$v_2$},
+        ytick={0.75,4.0},
+        yticklabels={$\lambda_1$,$\lambda_2$},
+        xlabel={$Time$},  
+        ylabel={$Order\;parameter$},
+        every axis x label/.style={
+    at={(ticklabel* cs:5.05)},
+    anchor=west,
+},
+every axis y label/.style={
+    at={(ticklabel* cs:5.05)},
+    anchor=south,
+},
+        axis lines=middle] 
+    \draw [fill=gray!40!white,thick,dashed] (axis cs:0,0) rectangle (axis cs:5.0,0.75);
+    \draw [fill=gray!40!white,thick,dashed] (axis cs:0,4.0) rectangle (axis cs:5.0,5.0);
+    \addplot+[black,thick,domain=0:5,no marks] {0};
+    %
+    \node  at (axis cs:2.0,4.1)    [anchor=south west] {$Product$};
+    \node  at (axis cs:2.0,0.1)    [anchor=south west] {$Reactant$};
+    \end{axis}
+\pause
+\draw [thick] (0.0 ,0.1) to [ curve through ={(0.5, 0.6) . . (0.55, 0.65)  . . (1.0,1.1) . . (3.3, 2.25) . . (4.2, 4.7) . . (4.5,5.2) . . (6.77, 5.56)  }] (6.8,5.66);% curve 
+\pause
+\filldraw (3.3,2.25) circle[radius=1.5pt];
+\pause
+\draw [green,thick] (3.3 ,2.25) to [ curve through ={(3.4,2.6)  . . (3.88, 3.00) . . (4.5,3.5) . . (5.0,4.35)  }] (6.8,4.8);% curve
+\pause  
+\draw [green,thick] (3.3 ,2.25) to [ curve through ={(3.2,1.9)  . . (2.3,1.6) . . (0.76,0.66)  }] (0.0,0.7);% curve 
+\pause
+\draw [gray!40!red,thick] (3.3 ,2.25) to [ curve through ={(3.6,2.9)  . . (3.88, 3.30) . . (4.5,3.5) . . (6.0,4.35)  }] (6.8,4.4);% curve
+\pause  
+\draw [gray!40!red,thick] (3.3 ,2.25) to [ curve through ={(3.2,1.9)  . . (2.3,1.6) . . (4.76,4.66)  }] (6.8,5.1);% curve 
+\pause
+\draw [white,thick] (3.3 ,2.25) to [ curve through ={(3.6,2.9)  . . (3.88, 3.30) . . (4.5,3.5) . . (6.0,4.35)  }] (6.8,4.4);% curve
+\pause  
+\draw [white,thick] (3.3 ,2.25) to [ curve through ={(3.2,1.9)  . . (2.3,1.6) . . (4.76,4.66)  }] (6.8,5.1);% curve 
+\end{tikzpicture}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
 \frametitle{Equilibrium sampling in trajectory space}
 
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
 \frametitle{The algorithm}
+
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Free energies from TPS}
+Window based sampling of order parameter
+
+\begin{equation}
+A[\zeta] = -k_BTlog(P(\zeta))
+\end{equation}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{QM/MM simulations}
+CHARMM force field consists of intramolecular terms such as 
+\begin{align}
+E_{int} = &\sum_{bonds}k_r(r-r_{0})^2 + \sum_{angles}k_{\theta}(\theta - \theta_{0})^2 \nonumber \\ &+ \sum_{dihedrals}k_{\phi}(1+\cos(n\phi-\delta)) \nonumber \\
+&+ \sum_{imp.\;dihed.} k_{\psi}(\psi - \psi_0)^2 + \sum_{Urey-Bradley} k_{\text{UB}}(r_{1,3}-r_{1,3;0}) \nonumber 
+\end{align}\pause
+and intermolecular terms such as 
+\begin{align}
+\sum_{nonbonded} \left(\frac{q_iq_j}{4\pi\epsilon r_{ij}} - E_{min} 
+\left[\left(\frac{R_{min}}{r_{ij}}\right)^{12} - \left(\frac{R_{min}}{r_{ij}}\right)^{6} \right] \right)\nonumber 
+\end{align}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Human adenosyl methionine enzyme}
+\begin{figure}
+\centering 
+\includegraphics[scale=0.6]{figures/mat2a-reaction.png}
+\end{figure}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{System preparation}
+The energies of both the systems were minimized using 50 steps of the 
+steepest descent method, followed by 2000 steps of the
+adopted basis Newton-Raphson method where only classical molecular mechanics 
+was used for the dynamics. 
+The minimized systems were
+heated slowly to 300 K for 35 ps beginning with harmonic
+constraints on all atoms except on the H atoms and the TIP3P 
+water molecules with gradual reduction of the restraint forces. 
+15 ps of equilibration was carried out starting with harmonic 
+restraint forces followed by 20 ps of constraint free 
+equilibration to prepare the systems for TPS simulations. 
+During the heating and equilibration steps, bonds that contain 
+hydrogen atoms in the MM region were restrained to their equilibrium values 
+using the SHAKE procedure. %\cite{Ryckaert77JComputPhys23p327} 
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{System preparation}
+\begin{figure}
+\centering 
+\includegraphics[scale=0.2]{figures/mat2a-equil.png}
+\end{figure}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Committor analysis}
+
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Committor distribution analysis}
+\begin{figure}[ht!]
+\centering
+\begin{minipage}[b]{0.45\linewidth}
+\includegraphics[width=\textwidth]{figures/comm-60-mat2a-nocons.pdf}
+\label{fig:minipage1}
+\end{minipage}
+\quad
+\begin{minipage}[b]{0.45\linewidth}
+\includegraphics[width=\textwidth]{figures/comm-60-mat2a.pdf}
+\label{fig:minipage2}
+\end{minipage}
+\caption{Committor distribution analysis for obtaining the reaction coordinate of the 
+MAT2A catalyzed reaction. The figure on the left has the QM region constrained and the figure 
+on the right has the QM region along with the Gln113, Ser114, Arg249 and Arg264 residues constrained.}
+\label{fig:mat2a-comm-dist}
+\end{figure}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Transition states}
+
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Free energies}
+\begin{figure}
+\includegraphics[scale=0.6]{figures/mat2a-fenergy.pdf}
+\end{figure}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Conclusions}
 
 \end{frame}
 %------------------------------------------------------------------------------
