@@ -58,11 +58,25 @@
 \begin{frame}
   \frametitle{Outline}
   \begin{itemize}[<+-|alert@+>]
+      \item Motivations
       \item Introduction to transition path sampling 
       \item Equilibrium sampling within TPS
       \item Algorithm 
       \item Results
   \end{itemize}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Motivations}
+\begin{block}{Why use molecular dynamics simulations?}
+Understand enzyme activity in atomistic detail
+\end{block}
+\pause
+\begin{block}{Why study enzyme activity?}
+To help understand the design of inhibitors 
+To design more efficient enzymes using directed evolution
+\end{block}
+
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
@@ -75,42 +89,34 @@
 %------------------------------------------------------------------------------
 \begin{frame}
 \frametitle{Transition path sampling (TPS)}
-Transition path sampling is a rate event sampling method \cite{Bolhuis02AnnRevPhysChem53p291}
+Transition path sampling is a rate event sampling method \footfullcite{Bolhuis02AnnRevPhysChem53p291}
 that is free from bias
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
-\frametitle{}
+\frametitle{Trajectories in phase space}
 \begin{tikzpicture}
-\begin{axis}[enlargelimits=false,ticks=none]
-\addplot3[fill=blue]
-coordinates{
-(1,0,0)
-(1,1,0)
-(1,1,1)
-(1,0,1)
-};
-\addplot3[fill=blue]
-coordinates{
-(2,0,0)
-(2,1,0)
-(2,1,1)
-(2,0,1)
-};
-\addplot3[fill=blue]
-coordinates{
-(3,0,0)
-(3,1,0)
-(3,1,1)
-(3,0,1)
-};
-    %\addplot3[name path=toppath,fill=blue, opacity=0.1, fill opacity=0.4,samples=2] (x-1,x,0);
-    %\addplot3[name path=botpath,fill=blue, opacity=0.1, fill opacity=0.4,samples=2] (x-1,x,0);
-    %\addplot [gray] fill between[of=toppath and botpath];
+\begin{axis}[
+    xlabel=time,
+    ylabel=q,
+    zlabel=p]
+  \addplot3[color=red,mark=x] coordinates {
+    (0.0,2.4,4.5)
+    (1.0,2.8,3.9)
+    (2.0,3.4,4.9)
+    (3.0,3.9,5.5)
+    (4.0,4.1,6.0)
+    (5.0,4.9,8.0)
+    (6.0,4.7,7.5)
+  };
+  \addplot3[color=blue,|-|] coordinates{ (0,2.4,4.0) (1,2.4,4.0)};
+  \node[] at (1.5,2.0,8.5) {$\Delta t$};
   \end{axis}
-%  
-\draw [black, thick] (1,3,0) -- (3,3,1.5);
 \end{tikzpicture}
+\newline
+The trajectory in phase space is defined by $x = \{\vec{q},\vec{p}\}$ where $\vec{q}$ 
+is the generalized coordinates and $\vec{p}$ is the generalized momenta of the 
+atoms in the system. 
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
@@ -277,7 +283,10 @@ on the right has the QM region along with the Gln113, Ser114, Arg249 and Arg264 
 %------------------------------------------------------------------------------
 \begin{frame}
 \frametitle{Transition states}
-
+\begin{figure}
+\centering
+\includegraphics[scale=0.1]{figures/mat2a-trans-labelled.png}
+\end{figure}
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
@@ -290,6 +299,24 @@ on the right has the QM region along with the Gln113, Ser114, Arg249 and Arg264 
 \begin{frame}
 \frametitle{Conclusions}
 
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{Acknowledgements}
+\begin{block}{Schwartz group}
+\begin{itemize}
+    \item Prof. Steven D. Schwartz
+    \item Dr. Dimitri Antoniou
+    \item Dr. Anthony Boldau
+    \item Dr. Allison Smith
+    \item Ananya Chakraborthy
+    \item Bai Hei
+    \item Clara Frost
+    \item Dr. Elango Munusamy
+\end{itemize}
+\end{block}
+\pause
+\includegraphics[scale=0.1]{figures/nih-logo.png}
 \end{frame}
 %------------------------------------------------------------------------------
 %\input{BeamerIntro.tex}
