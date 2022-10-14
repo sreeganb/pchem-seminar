@@ -17,7 +17,7 @@
 
 \usepackage[english]{babel}
 \usepackage{tikz}
-\usetikzlibrary{patterns,hobby}
+\usetikzlibrary{patterns,hobby,snakes}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.6}
 \usepgfplotslibrary{fillbetween}
@@ -45,7 +45,6 @@
 
 \institute[U of A]{Schwartz Group \\ Chemistry and Biochemistry \\ University of Arizona}
 \date{}
-
 % If you wish to uncover everything in a step-wise fashion, uncomment
 % the following command: 
 %\beamerdefaultoverlayspecification{<+->}
@@ -83,20 +82,24 @@ To design more efficient enzymes using directed evolution
 \frametitle{Sampling rare but important events}
 \begin{figure}
 \centering
-\includegraphics[scale=0.75]{figures/pot-surf.pdf}
+\includegraphics[scale=0.5]{figures/pot-surf.pdf}
 \end{figure}
-\end{frame}
-%------------------------------------------------------------------------------
-\begin{frame}
-\frametitle{Transition path sampling (TPS)}
-Transition path sampling is a rate event sampling method \footfullcite{Bolhuis02AnnRevPhysChem53p291}
-that is free from bias
+\begin{block}{Time scales in molecular dynamics simulations}
+{
+    \begin{itemize}
+        \item Consider the dissociation of a weak acid in water, with a half life of say $1\;ms$ 
+        \item Straightforward MD simulations with $1\;fs$ time step (takes $1\;s$ of wall time to simulate)
+        would take $10^9\;s$ of wall time to observe a single dissociation event 
+    \end{itemize}
+}
+\end{block}
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
 \frametitle{Trajectories in phase space}
-\begin{tikzpicture}
+\begin{tikzpicture}[scale=0.5]
 \begin{axis}[
+    %y label style={rotate=45, anchor=south west},
     xlabel=time,
     ylabel=q,
     zlabel=p]
@@ -114,15 +117,47 @@ that is free from bias
   %\node[] at (1.5,2.0,.5) {$\Delta t$};
   \end{axis}
 \end{tikzpicture}
-\newline
-The trajectory in phase space is defined by $x = \{\vec{q},\vec{p}\}$ where $\vec{q}$ 
-is the generalized coordinates and $\vec{p}$ is the generalized momenta of the 
-atoms in the system. 
+%
+%\newline
+\begin{block}{Definitions}
+{
+\begin{itemize}
+\item $x_0$: initial state, $T:$ time length of trajecotry, $\Delta t:$ time step, $x_{i\Delta t}:$ time slice ($i\in \{0,1,\ldots\}$)
+\item $x = \{\vec{q},\vec{p}\}$ where $\vec{q}:$ generalized coordinates and $\vec{p}:$ generalized momenta 
+\end{itemize}
+}
+\end{block} 
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
-\frametitle{Shooting algorithm}
-
+\frametitle{Transition path sampling (TPS)}
+\pause
+\begin{tikzpicture}
+  [every rectangle node/.style={draw},
+   every circle node/.style={draw}]
+  \draw (0,0) node[circle] {Reactant (A)}; 
+  \draw (5,1) node[circle] {Product (B)};
+    %\draw[snake=coil,segment aspect=0,red,thick] (0,0) node[circle] {Reactant (A)} -- (4,1) node[circle] {Product (B)};
+    %\draw (0.3,0) arc (180:90:3cm) -- (3.7,1.3) arc (90:0:1cm);
+    %\draw (0.3,0) arc (180:90:3cm) -- (3.7,1.3);
+    \pause
+    \draw[yshift=0cm]  (1,0) to [bend right=45] (4.5,1);
+    \pause
+    \draw[yshift=0cm]  (1.1,0.4) to [out=45, in=135] (4.3,1.2);
+    \pause
+    \draw[yshift=0cm]  (0.7,0.7) to [out=35, in=155] (4.1,1.5);
+    %\draw (0.3,0.2) arc (160:80:1cm) -- (3.5,1.5) arc (97:0:1cm);
+\end{tikzpicture}
+\begin{block}
+{
+    \begin{itemize}
+        \item Focus on pathways connecting long lived reactant and product states \footfullcite{Bolhuis02AnnRevPhysChem53p291}
+        \item Reaction coordinate and bias potential free description
+        \item Monte Carlo algorithm that is easy to implement
+        \item Transition state, reaction coordinates, kinetic parameters
+    \end{itemize}
+}
+\end{block}
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
@@ -144,7 +179,7 @@ probability distribution function.
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
-\frametitle{Monte Carlo in path space}
+\frametitle{Monte Carlo in path space: the shooting algorithm}
 \begin{tikzpicture}
  \begin{axis}[
         xmin=0.0,xmax=5.0,
@@ -188,6 +223,24 @@ every axis y label/.style={
 \pause  
 \draw [white,thick] (3.3 ,2.25) to [ curve through ={(3.2,1.9)  . . (2.3,1.6) . . (4.76,4.66)  }] (6.8,5.1);% curve 
 \end{tikzpicture}
+\end{frame}
+%------------------------------------------------------------------------------
+\begin{frame}
+\frametitle{TPS ensemble}
+\begin{equation}
+\mathcal{P}_{\mathcal{AB}}[z_{\mathcal{T}}] = h_{\mathcal{A}}(z_0)\mathcal{P}[z(\mathcal{T})]
+h_{\mathcal{B}}(z_{\mathcal{T}})/Z_{\mathcal{AB}}(\mathcal{T})\label{eqn:tpsensem}
+\end{equation}
+where 
+\[
+    h_{\mathcal{A}/\mathcal{B}}(z)= 
+\begin{cases}
+    1, & \text{if } z\in \mathcal{A}/\mathcal{B}\\
+    0,              & \text{otherwise}
+\end{cases}
+\]
+and $Z_{\mathcal{AB}}(\mathcal{T})$ is the normalization factor for this 
+probability distribution function.
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
