@@ -66,31 +66,32 @@
   \end{itemize}
 \end{frame}
 %------------------------------------------------------------------------------
-\begin{frame}
-\frametitle{Motivations}
-\begin{block}{Why study enzyme activity?}
-{
-    \begin{itemize}
-        \item Efficient catalysts
-        \item Design transition state analogues and inhibitors
-        \item Directed evolution to obtain more efficient enzymes
-    \end{itemize}
-}
-\end{block}
-\pause
-\begin{block}{Why use molecular dynamics simulations?}
-{
-\begin{itemize}
-    \item Enzyme activity in atomistic detail
-    \item  Hard to probe transition state structures using physical or spectroscopic 
-     methods since they typically have extremely short lifetimes ($10^{-13}\;s$)
- \end{itemize}
-}
-\end{block}
-\end{frame}
+%\begin{frame}
+%\frametitle{Motivations}
+%\begin{block}{Why study enzyme activity?}
+%{
+%    \begin{itemize}
+%        \item Efficient catalysts
+%        \item Design transition state analogues and inhibitors
+%        \item Directed evolution to obtain more efficient enzymes
+%    \end{itemize}
+%}
+%\end{block}
+%\pause
+%\begin{block}{Why use molecular dynamics simulations?}
+%{
+%\begin{itemize}
+%    \item Enzyme activity in atomistic detail
+%    \item  Hard to probe transition state structures using physical or spectroscopic 
+%     methods since they typically have extremely short lifetimes ($10^{-13}\;s$)
+% \end{itemize}
+%}
+%\end{block}
+%\end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
-\frametitle{Sampling rare but important events}
+\frametitle{Motivations: Sampling rare but important events}
+\pause
 \begin{figure}
 \centering
 \includegraphics[scale=0.5]{figures/pot-surf.pdf}
@@ -100,7 +101,7 @@
     \begin{itemize}
         \item Consider the dissociation of a weak acid in water, with a half life of say $1\;ms$ 
         \item Straightforward MD simulations with $1\;fs$ time step (takes $1\;s$ of wall time to simulate)
-        would take $10^9\;s$ of wall time to observe a single dissociation event 
+        would take $10^{12}\;s$ of wall time to observe a single dissociation event 
     \end{itemize}
 }
 \end{block}
@@ -125,7 +126,7 @@ Umbrella sampling, metadynamics, milestoning, conformational flooding, adaptive 
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
-\frametitle{Transition path sampling (TPS)}
+\frametitle{Transition path sampling (TPS)\footfullcite{Bolhuis02AnnRevPhysChem53p291}}
 \pause
 \begin{tikzpicture}
   [every rectangle node/.style={draw},
@@ -146,7 +147,7 @@ Umbrella sampling, metadynamics, milestoning, conformational flooding, adaptive 
 \begin{block}
 {
     \begin{itemize}
-        \item Focus on pathways connecting long lived reactant and product states \footfullcite{Bolhuis02AnnRevPhysChem53p291}
+        \item Focus on pathways connecting long lived reactant and product states 
         \item Reaction coordinate and bias potential free description
         \item Monte Carlo algorithm that is easy to implement
         \item Transition state, reaction coordinates, kinetic parameters
@@ -242,10 +243,12 @@ every axis y label/.style={
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
-\frametitle{Separatrix and committor analysis}
+\frametitle{Separatrix and committor analysis\footfullcite{Dellago2006}}
 \begin{figure}
 \centering 
-\includegraphics[scale=0.5]{figures/separatrix.png}
+\includegraphics[scale=0.4]{figures/separatrix-full.png}
+\caption{The probability of trajectories started from a time slice to reach the reactant ($P_A$) and the product $P_B$
+are equal for the transition state}
 \end{figure}
 \end{frame}
 %------------------------------------------------------------------------------
@@ -254,7 +257,7 @@ every axis y label/.style={
 Pathways connecting $\mathcal{A}$ and $\mathcal{B}$ in phase space have an associated probability distribution of
 \begin{equation}
 \mathcal{P}_{\mathcal{AB}}[x_{\mathcal{T}}] = h_{\mathcal{A}}(x_0)\mathcal{P}[x(\mathcal{T})]
-h_{\mathcal{B}}(x_{\mathcal{T}})/Z_{\mathcal{AB}}(\mathcal{T})\label{eqn:tpsensem}
+h_{\mathcal{B}}(x_{\mathcal{T}})/Z_{\mathcal{AB}}(\mathcal{T})\label{eqn:tpsensem}\nonumber 
 \end{equation}
 where 
 \[
@@ -336,15 +339,12 @@ every axis y label/.style={
 %------------------------------------------------------------------------------
 \begin{frame}
 \frametitle{Free energies from TPS}
-Window based sampling of order parameter
-
 \begin{equation}
-A[\lambda_i] = -k_BTlog(P(\lambda_i)) +\;\text{constant}
+A[\lambda_i] = -k_BTlog(P(\lambda_i)) +\;\text{constant} \nonumber 
 \end{equation}
-
 The probability of $P(\lambda_i)$ is defined by
 \begin{equation}
-P(\lambda_i) = \int \textbf{dV} \rho({\vec{q}})\delta(\lambda_i-\tilde{\lambda}(\vec{q}))
+P(\lambda_i) = \int \textbf{dV} \rho({\vec{q}})\delta(\lambda_i-\tilde{\lambda}(\vec{q})) \nonumber 
 \end{equation}
 In practice, the calculation of $P(\lambda_i)$ proceeds through histogram based techniques. 
 \end{frame}
@@ -448,6 +448,7 @@ Stddev & 0.04 & 0.03 \\
 \hline\hline
 \end{tabular}
 \end{center}
+Experimental results: $d_{\text{SC}}:\;2.03$ {\AA} and $d_{\text{OC}}:\;2.32$ {\AA}
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
@@ -472,14 +473,25 @@ on the right has the QM region along with the Gln113, Ser114, Arg249 and Arg264 
 %------------------------------------------------------------------------------
 \begin{frame}
 \frametitle{Free energies}
-\begin{figure}
-\includegraphics[scale=0.9]{figures/mat2a-fenergy.pdf}
-\caption{}
-\end{figure}
 \begin{itemize}
-\item 20 overlapping windows
-\item 2000 trajectories of $20\;fs$ length in each window
+\item 20 overlapping windows, 2500 trajectories of $20\;fs$ length in each window
 \end{itemize}
+%
+\begin{figure}
+\includegraphics[scale=0.7]{figures/mat2a-fenergy.pdf}
+%\caption{Calculated free energy barrier: $16\;kcal\;mol^{-1}$, experimental free energy barrier}
+\end{figure}
+%
+\begin{center}
+\begin{tabular}{l c}
+\hline\hline
+             & Free energy barrier ($kcal\;mol^{-1}$) \\
+             \hline
+Experimental & 17.27 \\
+Calculated & 16\footfullcite{Balasubramani22JPhysChemB126p5413} \\
+\hline\hline
+\end{tabular}
+\end{center}
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
@@ -494,7 +506,7 @@ malaria globally
 \begin{frame}
 \frametitle{Equilibrium structure}
 \begin{figure}
-\includegraphics[scale=0.1]{figures/ada-equil.png}
+\includegraphics[scale=0.23]{figures/ada-equil.png}
 \end{figure}
 \end{frame}
 %------------------------------------------------------------------------------
@@ -517,7 +529,8 @@ malaria globally
    \includegraphics[width=0.475\textwidth]{figures/ada-fenergy.pdf}
 \caption{Calculated free energy barrier: $21\;kcal\;mol^{-1}$}
 \end{figure}
-
+Qualitatively predicts the free energy profile as calculated from experiments for \textit{plasmodium falciparum}
+adenosine deaminase.
 \end{frame}
 %------------------------------------------------------------------------------
 \begin{frame}
